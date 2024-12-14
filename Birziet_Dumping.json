@@ -1,0 +1,4 @@
+{"type":"FeatureCollection", "features": [
+{"type":"Feature","geometry":{"type":"Point","coordinates":[166720,151270]},"properties":{"OBJECTID":37,"LayerName_":"مواقع مكبات النفايات","LayerNam_1":"Dumping Sites","SiteName_A":"وادي الشرق 4","SiteName_E":"East Wadi 4","Type_Arabi":"مفتوح","Type_Engli":"Open","X":166723,"Y":151274}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[169720,153280]},"properties":{"OBJECTID":55,"LayerName_":"مواقع مكبات النفايات","LayerNam_1":"Dumping Sites","SiteName_A":"زابوب","SiteName_E":"Zaboub","Type_Arabi":"مفتوح","Type_Engli":"Open","X":169723,"Y":153275}}
+]}

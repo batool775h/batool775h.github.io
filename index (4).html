@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invest in Birzeit</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+            text-align: center;
+            padding: 20px;
+            background: #f4f4f4;
+            width: 100%;
+        }
+        header img {
+            max-width: 150px; /* حجم الشعار */
+        }
+        header h1 {
+            margin: 10px 0;
+        }
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .button {
+            display: inline-block;
+            text-align: center;
+            margin: 10px;
+            padding: 20px 40px;
+            background: #007acc;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .button:hover {
+            background: #005a99;
+        }
+        #map {
+            width: 100%;
+            height: 80vh;
+            display: none;
+        }
+        .leaflet-popup-content {
+            direction: rtl; /* لجعل النص يظهر باللغة العربية */
+        }
+        .leaflet-popup {
+            max-width: 300px;
+            background-color: #f5f5f5;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- رأس الصفحة مع الشعار -->
+    <header>
+        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQE..." alt="Invest in Birzeit Logo" />
+        <h1>Invest in Birzeit</h1>
+    </header>
+
+    <!-- الأزرار الرئيسية -->
+    <div class="buttons-container">
+        <div class="button" id="buyLand">Buy Land in Birzeit</div>
+        <div class="button" id="sellLand">Sell Land in Birzeit</div>
+    </div>
+
+    <!-- الخريطة -->
+    <div id="map"></div>
+
+    <!-- مكتبة Leaflet -->
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script>
+        // تفعيل الخريطة عند الضغط على Buy Land
+        document.getElementById("buyLand").addEventListener("click", function () {
+            document.querySelector(".buttons-container").style.display = "none";
+            document.getElementById("map").style.display = "block";
+            initializeMap();
+        });
+
+        function initializeMap() {
+            // إنشاء الخريطة
+            const map = L.map("map").setView([31.9575, 35.1833], 14);
+
+            // إضافة خريطة الأساس
+            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                attribution: "© OpenStreetMap contributors",
+            }).addTo(map);
+
+            // إضافة الطبقات المختلفة (بيانات الأراضي)
+            const landData = [
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[
+                            [31.9580, 35.1840],
+                            [31.9590, 35.1850],
+                            [31.9600, 35.1830],
+                            [31.9580, 35.1820]
+                        ]]
+                    },
+                    "properties": {
+                        "ParcelNumb": "1",
+                        "BlockNumbe": "A",
+                        "name_owner": "أحمد علي",
+                        "phone_num": "0591234567",
+                        "price": "50,000 شيكل",
+                        "Shape_Area": "200"
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[
+                            [31.9570, 35.1800],
+                            [31.9580, 35.1810],
+                            [31.9590, 35.1790],
+                            [31.9570, 35.1780]
+                        ]]
+                    },
+                    "properties": {
+                        "ParcelNumb": "2",
+                        "BlockNumbe": "B",
+                        "name_owner": "محمود محمد",
+                        "phone_num": "0597654321",
+                        "price": "70,000 شيكل",
+                        "Shape_Area": "250"
+                    }
+                }
+            ];
+
+            // إضافة قطع الأراضي على الخريطة
+            L.geoJSON(landData, {
+                style: {
+                    color: "black",
+                    fillColor: "#f5deb3",
+                    weight: 1
+                },
+                onEachFeature: function (feature, layer) {
+                    layer.bindPopup(`
+                        <strong>رقم القطعة:</strong> ${feature.properties.ParcelNumb}<br>
+                        <strong>رقم الحوض:</strong> ${feature.properties.BlockNumbe}<br>
+                        <strong>المالك:</strong> ${feature.properties.name_owner}<br>
+                        <strong>الهاتف:</strong> ${feature.properties.phone_num}<br>
+                        <strong>السعر:</strong> ${feature.properties.price}<br>
+                        <strong>المساحة:</strong> ${feature.properties.Shape_Area} متر مربع
+                    `).openPopup();
+                }
+            }).addTo(map);
+        }
+    </script>
+</body>
+</html>
