@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invest in Birzeit</title>
+    
+    <!-- إضافة مكتبة Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+    <!-- إضافة Bootstrap CSS لتحسين تصميم واجهة المستخدم -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <style>
+        /* تخصيص الخريطة Leaflet */
+        #map {
+            height: 100vh; /* خريطة تغطي الشاشة بالكامل */
+        }
+
+        /* تصميم الفلاتر بشكل جذاب */
+        .filter-container {
+            position: absolute;
+            top: 10%;
+            left: 2%;
+            z-index: 999;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        /* نافذة الترحيب */
+        .welcome-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            text-align: center;
+            z-index: 9999;
+            display: block;
+        }
+
+        /* النص داخل نافذة الترحيب */
+        .welcome-text {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        /* إضافة صورة في نافذة الترحيب */
+        .welcome-image {
+            width: 80%;
+            max-width: 600px;
+            margin: 20px 0;
+        }
+
+        .icon-button {
+            width: 200px;
+            height: 60px;
+            font-size: 18px;
+            margin: 10px;
+        }
+
+        /* محتوى الخريطة */
+        #map {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- نافذة الترحيب مع الفقرة التمهيدية -->
+    <div class="welcome-container" id="welcome-container">
+        <h3>مرحبًا في موقع Invest in Birzeit!</h3>
+
+        <!-- إضافة صورة هنا -->
+        <img src="https://via.placeholder.com/600x400?text=بيرزيت" alt="صورة بيرزيت" class="welcome-image">
+
+        <p class="welcome-text">
+            <strong>Invest In Birzeit</strong> هو موقع إلكتروني متخصص في بيع الأراضي عالية الجودة في منطقة بيرزيت، وهي إحدى المناطق الفلسطينية ذات الأهمية التاريخية والجغرافية. يهدف الموقع إلى توفير أفضل الخيارات لشراء الأراضي السكنية والزراعية والتجارية في بيرزيت والمناطق المجاورة، مع التركيز على الأراضي ذات المواقع الاستراتيجية والمزايا الفريدة.
+        </p>
+        <p class="welcome-text">
+            <strong>Invest In Birzeit</strong> هو منصة إلكترونية مرخصة تتيح للمشترين المحليين والدوليين الاطلاع على مجموعة واسعة من الأراضي المتاحة للبيع في بيرزيت. تشمل هذه الأراضي مساحات سكنية مخصصة لبناء المنازل العائلية، وكذلك أراضٍ زراعية ذات إمكانيات كبيرة، وأراضٍ تجارية تقع في مواقع حيوية للاستثمار.
+        </p>
+        <p class="welcome-text">
+            يقدم الموقع للمشترين والبائعين حلولًا شاملة، بدءًا من عرض الأراضي المتاحة للبيع وحتى تقديم استشارات متخصصة في الاستثمار في الأراضي وتخطيط المشاريع. كما يوفر معلومات دقيقة حول القوانين واللوائح المتعلقة بالشراء في فلسطين، مما يسهل على المستثمرين والمشترين المحليين والدوليين اتخاذ قراراتهم بثقة.
+        </p>
+        <p class="welcome-text">
+            إذا كنت تبحث عن استثمار حقيقي في الأراضي، يُوصى بزيارة <strong>Invest In Birzeit</strong> للحصول على أفضل الخيارات المتاحة.
+        </p>
+        <button class="btn btn-primary icon-button" id="enter-button">دخول الموقع</button>
+    </div>
+
+    <!-- محتوى الخريطة -->
+    <div id="map"></div>
+
+    <!-- تحميل مكتبات JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-ajax"></script>
+
+    <script>
+        // إعداد الخريطة
+        const map = L.map('map').setView([31.9416, 35.1975], 13); // إحداثيات بيرزيت
+
+        // إضافة طبقة الخريطة الأساسية
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // إخفاء نافذة الترحيب وعرض الخريطة عند الضغط على زر "دخول الموقع"
+        $('#enter-button').on('click', function() {
+            $('#welcome-container').fadeOut(); // إخفاء نافذة الترحيب
+            $('#map').fadeIn(); // إظهار الخريطة
+        });
+
+        // تحميل البيانات من GeoJSON وإضافتها كطبقات
+        const loadGeoJSON = (url, options = {}) => {
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const layer = L.geoJSON(data, options).addTo(map);
+                    if (options.name) {
+                        L.control.layers(null, { [options.name]: layer }).addTo(map);
+                    }
+                })
+                .catch(error => console.error(`Error loading ${url}:`, error));
+        };
+
+        // تحميل الطبقات الخاصة بالأراضي، المدارس، الطرق، الخ
+        loadGeoJSON('https://raghadakare.github.io/Birziet_Parcels.json', {
+            style: {
+                color: "black",
+                fillColor: "beige",
+                fillOpacity: 0.7
+            },
+            onEachFeature: (feature, layer) => {
+                layer.bindPopup(`
+                    <strong>رقم القطعة:</strong> ${feature.properties.ParcelNumb}<br>
+                    <strong>المساحة:</strong> ${feature.properties.Shape_Area} م²<br>
+                    <strong>السعر:</strong> ₪${feature.properties.price}
+                `);
+            },
+            name: 'الأراضي'
+        });
+
+        // إضافة المزيد من الطبقات هنا
+    </script>
+</body>
+</html>
