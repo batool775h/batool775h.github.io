@@ -14,7 +14,6 @@
         /* تخصيص خريطة Leaflet */
         #map {
             height: 100vh; /* خريطة تغطي الشاشة بالكامل */
-            display: none; /* إخفاء الخريطة في البداية */
         }
 
         /* تصميم الفلاتر بشكل جذاب */
@@ -34,142 +33,98 @@
             display: block;
         }
 
-        /* نافذة الترحيب */
         .welcome-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100vh; /* تغطي الشاشة بالكامل */
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 20px;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            color: white;
             text-align: center;
-            z-index: 9999;
         }
 
-        .icon-button {
-            width: 200px;
-            height: 60px;
-            font-size: 18px;
-            margin: 10px;
+        .welcome-container h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
         }
 
-        /* تصميم واجهة بيع الأرض */
-        .sell-container {
-            position: fixed;
-            top: 10%;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 20px;
+        .welcome-container p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-container .btn {
+            font-size: 1rem;
+            padding: 10px 20px;
             border-radius: 8px;
-            z-index: 9999;
-            display: none;
-            width: 80%;
-            max-width: 400px;
-        }
-
-        .contact-container {
-            position: fixed;
-            top: 10%;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 8px;
-            z-index: 9999;
-            display: none;
-            width: 80%;
-            max-width: 400px;
-        }
-
-        .result-container {
-            position: absolute;
-            top: 20%;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 9999;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            display: none;
         }
     </style>
 </head>
 <body>
 
-    <!-- نافذة الترحيب -->
+    <!-- نافذة الترحيب بالمستخدم -->
     <div class="welcome-container" id="welcome-container">
-        <h3 style="color: green; font-family: 'Arial', sans-serif; font-size: 24px;">Invest In Birzeit</h3>
-        <p style="color: green; font-family: 'Arial', sans-serif; font-size: 20px;">هو موقع إلكتروني متخصص في بيع الأراضي عالية الجودة في منطقة بيرزيت، وهي إحدى المناطق الفلسطينية ذات الأهمية التاريخية والجغرافية. يهدف الموقع إلى توفير أفضل الخيارات لشراء الأراضي السكنية والزراعية والتجارية في بيرزيت والمناطق المجاورة، مع التركيز على الأراضي ذات المواقع الاستراتيجية والمزايا الفريدة.</p>
-        <p style="color: green; font-family: 'Arial', sans-serif; font-size: 20px;">يوفر الموقع أيضًا للمستثمرين المحليين والدوليين حلولًا شاملة لشراء الأراضي، مع تقديم استشارات متخصصة في الاستثمار وتخطيط المشاريع.</p>
-        <button class="btn btn-primary icon-button" id="buy-land-button">شراء أرض في بيرزيت</button>
-        <button class="btn btn-success icon-button" id="sell-land-button">بيع أرض في بيرزيت</button>
-        <button class="btn btn-info icon-button" id="contact-us-button">تواصل معنا</button>
+        <h1>مرحبًا في موقع Invest in Birzeit!</h1>
+        <p>اختر الخيار المناسب للبدء.</p>
+        <div class="btn-container">
+            <button class="btn btn-primary" id="buy-land-button">شراء أرض</button>
+            <button class="btn btn-success" id="sell-land-button">بيع أرض</button>
+            <button class="btn btn-info" id="contact-us-button">تواصل معنا</button>
+        </div>
     </div>
 
-    <!-- محتوى الخريطة -->
-    <div id="map"></div>
+    <!-- محتوى الخريطة (الصفحة الرئيسية) -->
+    <div id="map-page" style="display: none;">
+        <div id="map"></div>
+    </div>
 
     <!-- واجهة بيع الأرض -->
-    <div class="sell-container" id="sell-container">
-        <h5>معلومات الأرض للبيع</h5>
-        <label for="landDescription">مواصفات الأرض:</label>
-        <input type="text" id="landDescription" placeholder="أدخل مواصفات الأرض">
-        
-        <label for="sellerName">اسم البائع:</label>
-        <input type="text" id="sellerName" placeholder="أدخل اسم البائع">
-
-        <label for="sellerPhone">رقم البائع:</label>
-        <input type="text" id="sellerPhone" placeholder="أدخل رقم البائع">
-
-        <label for="expectedPrice">السعر المتوقع:</label>
-        <input type="number" id="expectedPrice" placeholder="أدخل السعر المتوقع">
-
-        <button class="btn btn-primary" id="submitSellForm">إرسال</button>
+    <div id="sell-land-page" style="display: none; padding: 20px;">
+        <h2>بيع أرض</h2>
+        <form>
+            <div class="form-group">
+                <label for="land-specs">مواصفات الأرض:</label>
+                <textarea class="form-control" id="land-specs" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="seller-name">اسم البائع:</label>
+                <input type="text" class="form-control" id="seller-name" required>
+            </div>
+            <div class="form-group">
+                <label for="seller-phone">رقم الهاتف:</label>
+                <input type="tel" class="form-control" id="seller-phone" required>
+            </div>
+            <div class="form-group">
+                <label for="expected-price">السعر المتوقع:</label>
+                <input type="number" class="form-control" id="expected-price" required>
+            </div>
+            <button type="submit" class="btn btn-success">إرسال</button>
+        </form>
     </div>
 
     <!-- واجهة تواصل معنا -->
-    <div class="contact-container" id="contact-container">
-        <h5>تواصل معنا</h5>
-        <p>البريد الإلكتروني: <a href="mailto:batoolhammad775h@gmail.com">batoolhammad775h@gmail.com</a></p>
-    </div>
-
-    <!-- الفلاتر المتقدمة -->
-    <div class="filter-container" id="filter-container">
-        <h5>فلترة الأراضي</h5>
-        
-        <!-- المسافة من المدارس -->
-        <label for="schoolDistance">المسافة من المدرسة (متر): </label>
-        <input type="range" id="schoolDistance" min="100" max="800" value="400">
-        <span id="schoolDistanceValue">400 متر</span>
-
-        <!-- المسافة من الخدمات -->
-        <label for="serviceDistance">المسافة من الخدمة (متر): </label>
-        <input type="range" id="serviceDistance" min="0" max="100" value="50">
-        <span id="serviceDistanceValue">50 متر</span>
-
-        <!-- نوع الخدمة -->
-        <label for="serviceType">نوع الخدمة: </label>
-        <select id="serviceType">
-            <option value="restaurant">مطعم</option>
-            <option value="hospital">مستشفى</option>
-            <option value="fuelStation">محطة وقود</option>
-            <option value="pharmacy">صيدلية</option>
-            <option value="mosque">مسجد</option>
-            <option value="church">كنيسة</option>
-            <option value="gym">صالة رياضية</option>
-        </select>
-
-        <!-- زر تطبيق الفلاتر -->
-        <button class="btn btn-primary" id="applyFilters">تطبيق الفلاتر</button>
+    <div id="contact-us-page" style="display: none; text-align: center; padding: 20px;">
+        <h2>تواصل معنا</h2>
+        <p>يمكنك التواصل معنا عبر البريد الإلكتروني التالي:</p>
+        <p><a href="mailto:batoolhammad67@gmail.com">batoolhammad67@gmail.com</a></p>
     </div>
 
     <!-- تحميل مكتبات JavaScript -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-ajax"></script>
 
     <script>
         // إعداد الخريطة
@@ -180,27 +135,128 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // عرض نافذة الترحيب عند تحميل الصفحة
+        // التنقل بين الصفحات
         $(document).ready(function() {
-            $('#welcome-container').fadeIn();
+            $('#buy-land-button').on('click', function() {
+                $('.welcome-container').hide();
+                $('#map-page').show();
+            });
+
+            $('#sell-land-button').on('click', function() {
+                $('.welcome-container').hide();
+                $('#sell-land-page').show();
+            });
+
+            $('#contact-us-button').on('click', function() {
+                $('.welcome-container').hide();
+                $('#contact-us-page').show();
+            });
         });
 
-        // إغلاق نافذة الترحيب عند الضغط على الأزرار
-        $('#buy-land-button').on('click', function() {
-            $('#welcome-container').fadeOut();
-            $('#map').fadeIn(); // إظهار الخريطة
+        // تحميل البيانات من GeoJSON وإضافتها كطبقات
+        const loadGeoJSON = (url, options = {}) => {
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const layer = L.geoJSON(data, options).addTo(map);
+                    if (options.name) {
+                        L.control.layers(null, { [options.name]: layer }).addTo(map);
+                    }
+                })
+                .catch(error => console.error(`Error loading ${url}:`, error));
+        };
+
+        // 1. طبقة الأراضي
+        loadGeoJSON('https://raghadakare.github.io/Birziet_Parcels.json', {
+            style: {
+                color: "black",
+                fillColor: "beige",
+                fillOpacity: 0.7
+            },
+            onEachFeature: (feature, layer) => {
+                layer.bindPopup(`
+                    <strong>رقم القطعة:</strong> ${feature.properties.ParcelNumb}<br>
+                    <strong>المساحة:</strong> ${feature.properties.Shape_Area} م²<br>
+                    <strong>السعر:</strong> ₪${feature.properties.price}
+                `);
+            },
+            name: 'الأراضي'
         });
 
-        $('#sell-land-button').on('click', function() {
-            $('#welcome-container').fadeOut();
-            $('#sell-container').fadeIn();
+        // 2. طبقة المدارس
+        loadGeoJSON('https://raghadakare.github.io/Birziet_Schools.json', {
+            pointToLayer: (feature, latlng) => L.marker(latlng, { icon: L.divIcon({ html: "🏫", iconSize: [20, 20] }) }),
+            onEachFeature: (feature, layer) => {
+                layer.bindPopup(`<strong>المدرسة:</strong> ${feature.properties.SchoolNa_1}`);
+            },
+            name: 'المدارس'
         });
 
-        $('#contact-us-button').on('click', function() {
-            $('#welcome-container').fadeOut();
-            $('#contact-container').fadeIn();
+        // 3. طبقة الطرق
+        loadGeoJSON('https://raghadakare.github.io/Birziet_Roads.json', {
+            style: {
+                color: "gray",
+                weight: 2
+            },
+            name: 'الطرق'
         });
+
+        // 4. طبقة الخدمات
+        loadGeoJSON('https://raghadakare.github.io/Birziet_Facilities.json', {
+            pointToLayer: (feature, latlng) => L.circleMarker(latlng, {
+                radius: 5,
+                fillColor: "green",
+                color: "#000",
+                weight: 1,
+                fillOpacity: 0.8
+            }),
+            onEachFeature: (feature, layer) => {
+                layer.bindPopup(`
+                    <strong>الخدمة:</strong> ${feature.properties.Facility_E}<br>
+                    <strong>التصنيف:</strong> ${feature.properties.Category_E}
+                `);
+            },
+            name: 'الخدمات'
+        });
+
+        // 5. طبقة المكبات
+        loadGeoJSON('https://raghadakare.github.io/Birziet_Dumping.json', {
+            pointToLayer: (feature, latlng) => L.circleMarker(latlng, {
+                radius: 5,
+                fillColor: "red",
+                color: "#000",
+                weight: 1,
+                fillOpacity: 0.8
+            }),
+            onEachFeature: (feature, layer) => {
+                layer.bindPopup(`<strong>المكب:</strong> ${feature.properties.SiteName_E}`);
+            },
+            name: 'المكبات'
+        });
+
+        // 6. طبقة القيمة الزراعية
+        loadGeoJSON('https://raghadakare.github.io/Birziet_Agri.json', {
+            style: {
+                color: "yellow",
+                fillColor: "#ffff99",
+                fillOpacity: 0.6
+            },
+            name: 'القيمة الزراعية'
+        });
+
+        // 7. طبقة تصنيفات الأراضي
+        loadGeoJSON('https://raghadakare.github.io/Birziet_ABC.json', {
+            style: {
+                color: "orange",
+                fillColor: "#ffcc00",
+                fillOpacity: 0.6
+            },
+            onEachFeature: (feature, layer) => {
+                layer.bindPopup(`<strong>تصنيف الأرض:</strong> ${feature.properties.Type}`);
+            },
+            name: 'تصنيفات الأراضي'
+        });
+
     </script>
-
 </body>
 </html>
