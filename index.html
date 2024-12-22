@@ -73,6 +73,9 @@
     <!-- نافذة الترحيب بالمستخدم -->
     <div class="welcome-container" id="welcome-container">
         <h3>مرحبًا في موقع Invest in Birzeit!</h3>
+        <p>Invest In Birzeit هو موقع إلكتروني متخصص في بيع الأراضي عالية الجودة في منطقة بيرزيت، وهي إحدى المناطق الفلسطينية ذات الأهمية التاريخية والجغرافية. يهدف الموقع إلى توفير أفضل الخيارات لشراء الأراضي السكنية والزراعية والتجارية في بيرزيت والمناطق المجاورة، مع التركيز على الأراضي ذات المواقع الاستراتيجية والمزايا الفريدة.</p>
+        <p>Invest In Birzeit هو منصة إلكترونية مرخصة تتيح للمشترين المحليين والدوليين الاطلاع على مجموعة واسعة من الأراضي المتاحة للبيع في بيرزيت. تشمل هذه الأراضي مساحات سكنية مخصصة لبناء المنازل العائلية، وكذلك أراضٍ زراعية ذات إمكانيات كبيرة، وأراضٍ تجارية تقع في مواقع حيوية للاستثمار.</p>
+        <p>يقدم الموقع للمشترين والبائعين حلولًا شاملة، بدءًا من عرض الأراضي المتاحة للبيع وحتى تقديم استشارات متخصصة في الاستثمار في الأراضي وتخطيط المشاريع. كما يوفر معلومات دقيقة حول القوانين واللوائح المتعلقة بالشراء في فلسطين، مما يسهل على المستثمرين والمشترين المحليين والدوليين اتخاذ قراراتهم بثقة.</p>
         <p>في هذا الموقع، يمكنك شراء أو بيع أراضٍ في بيرزيت. اختر الخيار المناسب أدناه للبدء.</p>
         <button class="btn btn-primary icon-button" id="buy-land-button">شراء أرض في بيرزيت</button>
         <button class="btn btn-success icon-button" id="sell-land-button">بيع أرض في بيرزيت</button>
@@ -204,80 +207,6 @@
                 `);
             },
             name: 'الأراضي'
-        });
-
-        // 2. طبقة المدارس
-        loadGeoJSON('https://raghadakare.github.io/Birziet_Schools.json', {
-            pointToLayer: (feature, latlng) => L.marker(latlng, { icon: L.divIcon({ html: "🏫", iconSize: [20, 20] }) }),
-            onEachFeature: (feature, layer) => {
-                layer.bindPopup(`<strong>المدرسة:</strong> ${feature.properties.SchoolNa_1}`);
-            },
-            name: 'المدارس'
-        });
-
-        // 3. طبقة الطرق
-        loadGeoJSON('https://raghadakare.github.io/Birziet_Roads.json', {
-            style: {
-                color: "gray",
-                weight: 2
-            },
-            name: 'الطرق'
-        });
-
-        // 4. طبقة الخدمات
-        loadGeoJSON('https://raghadakare.github.io/Birziet_Facilities.json', {
-            pointToLayer: (feature, latlng) => L.circleMarker(latlng, {
-                radius: 5,
-                fillColor: "green",
-                color: "#000",
-                weight: 1,
-                fillOpacity: 0.8
-            }),
-            onEachFeature: (feature, layer) => {
-                layer.bindPopup(`
-                    <strong>الخدمة:</strong> ${feature.properties.Facility_E}<br>
-                    <strong>التصنيف:</strong> ${feature.properties.Category_E}
-                `);
-            },
-            name: 'الخدمات'
-        });
-
-        // 5. طبقة المكبات
-        loadGeoJSON('https://raghadakare.github.io/Birziet_Dumping.json', {
-            pointToLayer: (feature, latlng) => L.circleMarker(latlng, {
-                radius: 5,
-                fillColor: "red",
-                color: "#000",
-                weight: 1,
-                fillOpacity: 0.8
-            }),
-            onEachFeature: (feature, layer) => {
-                layer.bindPopup(`<strong>المكب:</strong> ${feature.properties.SiteName_E}`);
-            },
-            name: 'المكبات'
-        });
-
-        // 6. طبقة القيمة الزراعية
-        loadGeoJSON('https://raghadakare.github.io/Birziet_Agri.json', {
-            style: {
-                color: "yellow",
-                fillColor: "#ffff99",
-                fillOpacity: 0.6
-            },
-            name: 'القيمة الزراعية'
-        });
-
-        // 7. طبقة تصنيفات الأراضي
-        loadGeoJSON('https://raghadakare.github.io/Birziet_ABC.json', {
-            style: {
-                color: "orange",
-                fillColor: "#ffcc00",
-                fillOpacity: 0.6
-            },
-            onEachFeature: (feature, layer) => {
-                layer.bindPopup(`<strong>تصنيف الأرض:</strong> ${feature.properties.Type}`);
-            },
-            name: 'تصنيفات الأراضي'
         });
 
     </script>
