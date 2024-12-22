@@ -59,7 +59,7 @@
             font-size: 3rem;
             font-weight: bold;
             margin-bottom: 20px;
-            color: #ff9800;
+            color: #28a745;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
@@ -78,6 +78,9 @@
             font-size: 1.2rem;
             padding: 15px 30px;
             border-radius: 10px;
+            background-color: #28a745;
+            border: none;
+            color: white;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             transition: transform 0.2s, box-shadow 0.2s;
         }
@@ -85,21 +88,6 @@
         .btn-container .btn:hover {
             transform: scale(1.05);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        .btn-primary {
-            background-color: #007bff;
-            border: none;
-        }
-
-        .btn-success {
-            background-color: #28a745;
-            border: none;
-        }
-
-        .btn-info {
-            background-color: #17a2b8;
-            border: none;
         }
 
         .info-section {
@@ -130,9 +118,9 @@
         <h1>مرحبًا بك في Invest in Birzeit!</h1>
         <p>ابدأ رحلتك معنا لاستكشاف وبيع وشراء الأراضي بطريقة مبتكرة وسهلة.</p>
         <div class="btn-container">
-            <button class="btn btn-primary" id="buy-land-button">شراء أرض</button>
-            <button class="btn btn-success" id="sell-land-button">بيع أرض</button>
-            <button class="btn btn-info" id="contact-us-button">تواصل معنا</button>
+            <button class="btn" id="buy-land-button">شراء أرض</button>
+            <button class="btn" id="sell-land-button">بيع أرض</button>
+            <button class="btn" id="contact-us-button">تواصل معنا</button>
         </div>
     </div>
 
@@ -198,18 +186,19 @@
 
         // التنقل بين الصفحات
         $(document).ready(function() {
-            $('#buy-land-button').on('click', function() {
+            $('.btn').on('click', function() {
                 $('.welcome-container').hide();
+            });
+
+            $('#buy-land-button').on('click', function() {
                 $('#map-page').show();
             });
 
             $('#sell-land-button').on('click', function() {
-                $('.welcome-container').hide();
                 $('#sell-land-page').show();
             });
 
             $('#contact-us-button').on('click', function() {
-                $('.welcome-container').hide();
                 $('#contact-us-page').show();
             });
         });
