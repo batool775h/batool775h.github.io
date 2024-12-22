@@ -42,7 +42,7 @@
             padding: 20px;
             text-align: center;
             z-index: 9999;
-            display: none;
+            display: block;
         }
 
         .icon-button {
@@ -50,6 +50,10 @@
             height: 60px;
             font-size: 18px;
             margin: 10px;
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
         }
 
         .result-container {
@@ -65,6 +69,18 @@
             display: none;
         }
 
+        .contact-container {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .sell-container {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
     </style>
 </head>
 <body>
@@ -73,11 +89,39 @@
     <div class="welcome-container" id="welcome-container">
         <h3>مرحبًا في موقع Invest in Birzeit!</h3>
         <p>Invest In Birzeit هو موقع إلكتروني متخصص في بيع الأراضي عالية الجودة في منطقة بيرزيت، وهي إحدى المناطق الفلسطينية ذات الأهمية التاريخية والجغرافية. يهدف الموقع إلى توفير أفضل الخيارات لشراء الأراضي السكنية والزراعية والتجارية في بيرزيت والمناطق المجاورة، مع التركيز على الأراضي ذات المواقع الاستراتيجية والمزايا الفريدة.</p>
-        <p>Invest In Birzeit هو منصة إلكترونية مرخصة تتيح للمشترين المحليين والدوليين الاطلاع على مجموعة واسعة من الأراضي المتاحة للبيع في بيرزيت. تشمل هذه الأراضي مساحات سكنية مخصصة لبناء المنازل العائلية، وكذلك أراضٍ زراعية ذات إمكانيات كبيرة، وأراضٍ تجارية تقع في مواقع حيوية للاستثمار.</p>
-        <p>يقدم الموقع للمشترين والبائعين حلولًا شاملة، بدءًا من عرض الأراضي المتاحة للبيع وحتى تقديم استشارات متخصصة في الاستثمار في الأراضي وتخطيط المشاريع. كما يوفر معلومات دقيقة حول القوانين واللوائح المتعلقة بالشراء في فلسطين، مما يسهل على المستثمرين والمشترين المحليين والدوليين اتخاذ قراراتهم بثقة.</p>
         <p>في هذا الموقع، يمكنك شراء أو بيع أراضٍ في بيرزيت. اختر الخيار المناسب أدناه للبدء.</p>
-        <button class="btn btn-primary icon-button" id="buy-land-button">شراء أرض في بيرزيت</button>
-        <button class="btn btn-success icon-button" id="sell-land-button">بيع أرض في بيرزيت</button>
+        
+        <!-- الأزرار التي تنقل إلى الخيارات المختلفة -->
+        <button class="icon-button" id="buy-land-button">شراء أرض في بيرزيت</button>
+        <button class="icon-button" id="sell-land-button">بيع أرض في بيرزيت</button>
+        <button class="icon-button" id="contact-us-button">تواصل معنا</button>
+    </div>
+
+    <!-- واجهة بيع الأرض -->
+    <div class="sell-container" id="sell-container">
+        <h3>بيع أرض في بيرزيت</h3>
+        <form>
+            <label for="landSpecs">مواصفات الأرض:</label>
+            <textarea id="landSpecs" rows="4" cols="50" placeholder="أدخل مواصفات الأرض هنا..."></textarea><br>
+
+            <label for="expectedPrice">السعر المتوقع للبيع:</label>
+            <input type="number" id="expectedPrice" placeholder="أدخل السعر المتوقع"><br>
+
+            <label for="ownerName">اسم البائع:</label>
+            <input type="text" id="ownerName" placeholder="أدخل اسمك"><br>
+
+            <label for="ownerPhone">رقم الهاتف:</label>
+            <input type="text" id="ownerPhone" placeholder="أدخل رقم هاتفك"><br>
+
+            <button type="submit" class="icon-button">إرسال</button>
+        </form>
+    </div>
+
+    <!-- واجهة تواصل معنا -->
+    <div class="contact-container" id="contact-container">
+        <h3>تواصل معنا</h3>
+        <p>يمكنك التواصل معنا عبر البريد الإلكتروني التالي:</p>
+        <p><strong>البريد الإلكتروني:</strong> <a href="mailto:batoolhammad67@gmail.com">batoolhammad67@gmail.com</a></p>
     </div>
 
     <!-- محتوى الخريطة -->
@@ -139,16 +183,6 @@
         <button class="btn btn-primary" id="applyFilters">تطبيق الفلاتر</button>
     </div>
 
-    <!-- نافذة نتائج الأرض المطابقة -->
-    <div class="result-container" id="result-container">
-        <h5>معلومات الأرض المطابقة:</h5>
-        <p><strong>رقم القطعة:</strong> <span id="landNumber">XXX</span></p>
-        <p><strong>المالك:</strong> <span id="ownerName">أحمد محمد</span></p>
-        <p><strong>السعر:</strong> <span id="landPrice">₪ 0</span></p>
-        <p><strong>رقم الهاتف:</strong> <span id="ownerPhone">0598XXXXXX</span></p>
-        <button class="btn btn-success" id="backToFilters">الرجوع إلى الفلاتر</button>
-    </div>
-
     <!-- تحميل مكتبات JavaScript -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
@@ -159,23 +193,30 @@
         // إعداد الخريطة
         const map = L.map('map').setView([31.9416, 35.1975], 13); // إحداثيات بيرزيت
 
-        // إضافة طبقة الخريطة الأساسية
+        // إضافة طبقة الخريطة
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // عرض نافذة الترحيب عند تحميل الصفحة
-        $(document).ready(function() {
-            $('#welcome-container').fadeIn();
-        });
+        // إخفاء خريطة عند البداية
+        $('#map').hide();
 
-        // إغلاق نافذة الترحيب عند الضغط على الأزرار
+        // عرض الخريطة عند النقر على شراء أرض
         $('#buy-land-button').on('click', function() {
             $('#welcome-container').fadeOut();
+            $('#map').fadeIn();
         });
 
+        // عرض واجهة بيع الأرض
         $('#sell-land-button').on('click', function() {
             $('#welcome-container').fadeOut();
+            $('#sell-container').fadeIn();
+        });
+
+        // عرض واجهة تواصل معنا
+        $('#contact-us-button').on('click', function() {
+            $('#welcome-container').fadeOut();
+            $('#contact-container').fadeIn();
         });
 
         // تحميل البيانات من GeoJSON وإضافتها كطبقات
@@ -191,7 +232,7 @@
                 .catch(error => console.error(`Error loading ${url}:`, error));
         };
 
-        // 1. طبقة الأراضي
+        // تحميل بيانات الأراضي من GeoJSON
         loadGeoJSON('https://raghadakare.github.io/Birziet_Parcels.json', {
             style: {
                 color: "black",
