@@ -40,40 +40,61 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(255, 255, 255, 0.9));
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            color: white;
             text-align: center;
+            color: #fff;
         }
 
         .welcome-container h1 {
-            font-size: 2.5rem;
+            font-size: 3rem;
+            font-weight: bold;
             margin-bottom: 20px;
+            color: #ff9800;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         .welcome-container p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            color: #f0f0f0;
         }
 
         .btn-container {
             display: flex;
-            gap: 15px;
+            gap: 20px;
         }
 
         .btn-container .btn {
-            font-size: 1rem;
-            padding: 10px 20px;
-            border-radius: 8px;
+            font-size: 1.2rem;
+            padding: 15px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        /* تحسين ألوان الخريطة والطبقات */
-        .leaflet-container .leaflet-interactive {
-            stroke-width: 1; /* تقليل سماكة خطوط الطبقات */
+        .btn-container .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            border: none;
+        }
+
+        .btn-info {
+            background-color: #17a2b8;
+            border: none;
         }
     </style>
 </head>
@@ -81,8 +102,8 @@
 
     <!-- نافذة الترحيب بالمستخدم -->
     <div class="welcome-container" id="welcome-container">
-        <h1>مرحبًا في موقع Invest in Birzeit!</h1>
-        <p>اختر الخيار المناسب للبدء.</p>
+        <h1>مرحبًا بك في Invest in Birzeit!</h1>
+        <p>ابدأ رحلتك معنا لاستكشاف وبيع وشراء الأراضي بطريقة مبتكرة وسهلة.</p>
         <div class="btn-container">
             <button class="btn btn-primary" id="buy-land-button">شراء أرض</button>
             <button class="btn btn-success" id="sell-land-button">بيع أرض</button>
@@ -158,111 +179,6 @@
                 $('#contact-us-page').show();
             });
         });
-
-        // تحميل البيانات من GeoJSON وإضافتها كطبقات
-        const loadGeoJSON = (url, options = {}) => {
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    const layer = L.geoJSON(data, options).addTo(map);
-                    if (options.name) {
-                        L.control.layers(null, { [options.name]: layer }).addTo(map);
-                    }
-                })
-                .catch(error => console.error(`Error loading ${url}:`, error));
-        };
-
-        // 1. طبقة الأراضي
-        loadGeoJSON('https://raghadakare.github.io/Birziet_Parcels.json', {
-            style: {
-                color: "#555", /* لون مريح للعين */
-                fillColor: "#dcdcdc", /* لون خلفية خفيف ومريح */
-                fillOpacity: 0.7
-            },
-            onEachFeature: (feature, layer) => {
-                layer.bindPopup(`
-                    <strong>رقم القطعة:</strong> ${feature.properties.ParcelNumb}<br>
-                    <strong>المساحة:</strong> ${feature.properties.Shape_Area} م²<br>
-                    <strong>السعر:</strong> ₪${feature.properties.price}
-                `);
-            },
-            name: 'الأراضي'
-        });
-
-        // 2. طبقة المدارس
-        loadGeoJSON('https://raghadakare.github.io/Birziet_Schools.json', {
-            pointToLayer: (feature, latlng) => L.marker(latlng, { icon: L.divIcon({ html: "🏫", iconSize: [20, 20] }) }),
-            onEachFeature: (feature, layer) => {
-                layer.bindPopup(`<strong>المدرسة:</strong> ${feature.properties.SchoolNa_1}`);
-            },
-            name: 'المدارس'
-        });
-
-        // 3. طبقة الطرق
-        loadGeoJSON('https://raghadakare.github.io/Birziet_Roads.json', {
-            style: {
-                color: "#aaa", /* لون رمادي مريح */
-                weight: 1.5
-            },
-            name: 'الطرق'
-        });
-
-        // 4. طبقة الخدمات
-        loadGeoJSON('https://raghadakare.github.io/Birziet_Facilities.json', {
-            pointToLayer: (feature, latlng) => L.circleMarker(latlng, {
-                radius: 5,
-                fillColor: "#5cb85c", /* لون أخضر مريح */
-                color: "#000",
-                weight: 1,
-                fillOpacity: 0.8
-            }),
-            onEachFeature: (feature, layer) => {
-                layer.bindPopup(`
-                    <strong>الخدمة:</strong> ${feature.properties.Facility_E}<br>
-                    <strong>التصنيف:</strong> ${feature.properties.Category_E}
-                `);
-            },
-            name: 'الخدمات'
-        });
-
-        // 5. طبقة المكبات
-        loadGeoJSON('https://raghadakare.github.io/Birziet_Dumping.json', {
-            pointToLayer: (feature, latlng) => L.circleMarker(latlng, {
-                radius: 5,
-                fillColor: "#d9534f", /* لون أحمر خفيف */
-                color: "#000",
-                weight: 1,
-                fillOpacity: 0.8
-            }),
-            onEachFeature: (feature, layer) => {
-                layer.bindPopup(`<strong>المكب:</strong> ${feature.properties.SiteName_E}`);
-            },
-            name: 'المكبات'
-        });
-
-        // 6. طبقة القيمة الزراعية
-        loadGeoJSON('https://raghadakare.github.io/Birziet_Agri.json', {
-            style: {
-                color: "#ffeb3b", /* لون أصفر خفيف */
-                fillColor: "#fffde7", /* لون خلفية مريح */
-                fillOpacity: 0.6
-            },
-            name: 'القيمة الزراعية'
-        });
-
-        // 7. طبقة تصنيفات الأراضي
-        loadGeoJSON('https://raghadakare.github.io/Birziet_ABC.json', {
-            style: {
-                color: "#ff9800", /* لون برتقالي خفيف */
-                fillColor: "#ffe0b2", /* لون خلفية مريح */
-                fillOpacity: 0.6
-            },
-            onEachFeature: (feature, layer) => {
-                layer.bindPopup(`<strong>تصنيف الأرض:</strong> ${feature.properties.Type}`);
-            },
-            name: 'تصنيفات الأراضي'
-        });
-
     </script>
 </body>
 </html>
