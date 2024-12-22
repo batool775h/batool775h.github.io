@@ -212,57 +212,30 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // إخفاء خريطة عند البداية
+        // إخفاء الخريطة والواجهات الأخرى عند البداية
         $('#map').hide();
+        $('#filter-container').hide();
+        $('#sell-container').hide();
+        $('#contact-container').hide();
 
-        // عرض الخريطة عند النقر على شراء أرض
+        // عرض الخريطة عند النقر على "شراء أرض"
         $('#buy-land-button').on('click', function() {
             $('#welcome-container').fadeOut();
             $('#map').fadeIn();
+            $('#filter-container').fadeIn();
         });
 
-        // عرض واجهة بيع الأرض
+        // عرض واجهة "بيع أرض"
         $('#sell-land-button').on('click', function() {
             $('#welcome-container').fadeOut();
             $('#sell-container').fadeIn();
         });
 
-        // عرض واجهة تواصل معنا
+        // عرض واجهة "تواصل معنا"
         $('#contact-us-button').on('click', function() {
             $('#welcome-container').fadeOut();
             $('#contact-container').fadeIn();
         });
-
-        // تحميل البيانات من GeoJSON وإضافتها كطبقات
-        const loadGeoJSON = (url, options = {}) => {
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    const layer = L.geoJSON(data, options).addTo(map);
-                    if (options.name) {
-                        L.control.layers(null, { [options.name]: layer }).addTo(map);
-                    }
-                })
-                .catch(error => console.error(`Error loading ${url}:`, error));
-        };
-
-        // تحميل بيانات الأراضي من GeoJSON
-        loadGeoJSON('https://raghadakare.github.io/Birziet_Parcels.json', {
-            style: {
-                color: "black",
-                fillColor: "beige",
-                fillOpacity: 0.7
-            },
-            onEachFeature: (feature, layer) => {
-                layer.bindPopup(`
-                    <strong>رقم القطعة:</strong> ${feature.properties.ParcelNumb}<br>
-                    <strong>المساحة:</strong> ${feature.properties.Shape_Area} م²<br>
-                    <strong>السعر:</strong> ₪${feature.properties.price}
-                `);
-            },
-            name: 'الأراضي'
-        });
     </script>
-
 </body>
 </html>
