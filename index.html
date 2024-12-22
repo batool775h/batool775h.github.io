@@ -11,6 +11,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     
     <style>
+        body {
+            direction: rtl;
+            text-align: right;
+        }
+
         /* تخصيص خريطة Leaflet */
         #map {
             height: 100vh; /* خريطة تغطي الشاشة بالكامل */
@@ -96,6 +101,26 @@
             background-color: #17a2b8;
             border: none;
         }
+
+        .info-section {
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+        }
+
+        .info-section h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .info-section p {
+            font-size: 1.2rem;
+            color: #555;
+            line-height: 1.8;
+        }
     </style>
 </head>
 <body>
@@ -138,6 +163,15 @@
             </div>
             <button type="submit" class="btn btn-success">إرسال</button>
         </form>
+    </div>
+
+    <!-- فقرة معلومات عن الشركة -->
+    <div class="info-section">
+        <h2>عن موقع Invest in Birzeit</h2>
+        <p>موقع Invest in Birzeit هو منصة إلكترونية متخصصة في تقديم خدمات بيع وشراء العقارات السكنية والتجارية في مدينة بيرزيت. تم تأسيس الموقع لتلبية احتياجات العملاء الباحثين عن حلول عقارية مميزة وسهلة الوصول. 
+        يوفر الموقع مجموعة واسعة من العقارات الفاخرة، بما في ذلك المنازل العائلية الكبيرة والشقق الفاخرة والمساحات التجارية، محاطة بجمال الطبيعة والأماكن المميزة في بيرزيت. 
+        فريق العمل لدينا يتمتع بخبرة واسعة في مجال العقارات، ويعمل دائمًا على توفير أفضل الحلول التي تلبي احتياجات العملاء مع التركيز على رضاهم. 
+        انطلق معنا في رحلتك العقارية وتمتع بالخدمات عالية الجودة التي نقدمها.</p>
     </div>
 
     <!-- واجهة تواصل معنا -->
