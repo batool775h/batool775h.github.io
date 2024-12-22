@@ -10,6 +10,9 @@
     <!-- إضافة Bootstrap CSS لتحسين تصميم واجهة المستخدم -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     
+    <!-- إضافة خط جميل من Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600&display=swap" rel="stylesheet">
+    
     <style>
         /* تخصيص خريطة Leaflet */
         #map {
@@ -49,14 +52,22 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            font-family: 'Cairo', sans-serif;
         }
 
+        /* تخصيص النص في الواجهة الترحيبية */
         .welcome-container h3 {
             margin-bottom: 20px;
+            font-size: 2.5em;
+            color: #2ecc71; /* اللون الأخضر */
+            font-weight: bold;
         }
 
         .welcome-container p {
             margin-bottom: 30px;
+            font-size: 1.2em;
+            color: #2ecc71; /* اللون الأخضر */
+            line-height: 1.6;
         }
 
         .icon-button {
@@ -64,11 +75,17 @@
             height: 60px;
             font-size: 18px;
             margin: 10px;
-            background-color: green;
+            background-color: #2ecc71; /* اللون الأخضر */
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        /* تغيير لون الزر عند التمرير عليه */
+        .icon-button:hover {
+            background-color: #27ae60; /* لون أخضر أغمق عند التمرير */
         }
 
         .result-container {
@@ -193,26 +210,22 @@
         <label for="wasteDistance">المسافة من مكبات النفايات (متر): </label>
         <input type="range" id="wasteDistance" min="300" max="700" value="500">
         <span id="wasteDistanceValue">500 متر</span>
-
-        <!-- زر تطبيق الفلاتر -->
-        <button class="btn btn-primary" id="applyFilters">تطبيق الفلاتر</button>
     </div>
 
-    <!-- تحميل مكتبات JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- إضافة سكربتات الجافا سكربت -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
 
     <script>
-        // إنشاء الخريطة
         var map = L.map('map').setView([31.9456, 35.2062], 14);
 
-        // إضافة طبقة الخريطة
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // إخفاء الخريطة والواجهات الأخرى عند البداية
+        // إخفاء الخريطة والفلاتر والمحتوى الآخر عند تحميل الصفحة
         $('#map').hide();
         $('#filter-container').hide();
         $('#sell-container').hide();
@@ -237,5 +250,6 @@
             $('#contact-container').fadeIn();
         });
     </script>
+
 </body>
 </html>
