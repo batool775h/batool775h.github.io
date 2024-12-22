@@ -22,7 +22,7 @@
             top: 10%;
             left: 2%;
             z-index: 999;
-            background-color: rgba(255, 255, 255, 0.8);
+            background-color: rgba(240, 248, 255, 0.9); /* لون مريح للعين */
             padding: 15px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -31,6 +31,7 @@
         .filter-container label, .filter-container select, .filter-container input {
             margin-bottom: 10px;
             display: block;
+            color: #333;
         }
 
         .welcome-container {
@@ -68,6 +69,11 @@
             font-size: 1rem;
             padding: 10px 20px;
             border-radius: 8px;
+        }
+
+        /* تحسين ألوان الخريطة والطبقات */
+        .leaflet-container .leaflet-interactive {
+            stroke-width: 1; /* تقليل سماكة خطوط الطبقات */
         }
     </style>
 </head>
@@ -169,8 +175,8 @@
         // 1. طبقة الأراضي
         loadGeoJSON('https://raghadakare.github.io/Birziet_Parcels.json', {
             style: {
-                color: "black",
-                fillColor: "beige",
+                color: "#555", /* لون مريح للعين */
+                fillColor: "#dcdcdc", /* لون خلفية خفيف ومريح */
                 fillOpacity: 0.7
             },
             onEachFeature: (feature, layer) => {
@@ -195,8 +201,8 @@
         // 3. طبقة الطرق
         loadGeoJSON('https://raghadakare.github.io/Birziet_Roads.json', {
             style: {
-                color: "gray",
-                weight: 2
+                color: "#aaa", /* لون رمادي مريح */
+                weight: 1.5
             },
             name: 'الطرق'
         });
@@ -205,7 +211,7 @@
         loadGeoJSON('https://raghadakare.github.io/Birziet_Facilities.json', {
             pointToLayer: (feature, latlng) => L.circleMarker(latlng, {
                 radius: 5,
-                fillColor: "green",
+                fillColor: "#5cb85c", /* لون أخضر مريح */
                 color: "#000",
                 weight: 1,
                 fillOpacity: 0.8
@@ -223,7 +229,7 @@
         loadGeoJSON('https://raghadakare.github.io/Birziet_Dumping.json', {
             pointToLayer: (feature, latlng) => L.circleMarker(latlng, {
                 radius: 5,
-                fillColor: "red",
+                fillColor: "#d9534f", /* لون أحمر خفيف */
                 color: "#000",
                 weight: 1,
                 fillOpacity: 0.8
@@ -237,8 +243,8 @@
         // 6. طبقة القيمة الزراعية
         loadGeoJSON('https://raghadakare.github.io/Birziet_Agri.json', {
             style: {
-                color: "yellow",
-                fillColor: "#ffff99",
+                color: "#ffeb3b", /* لون أصفر خفيف */
+                fillColor: "#fffde7", /* لون خلفية مريح */
                 fillOpacity: 0.6
             },
             name: 'القيمة الزراعية'
@@ -247,8 +253,8 @@
         // 7. طبقة تصنيفات الأراضي
         loadGeoJSON('https://raghadakare.github.io/Birziet_ABC.json', {
             style: {
-                color: "orange",
-                fillColor: "#ffcc00",
+                color: "#ff9800", /* لون برتقالي خفيف */
+                fillColor: "#ffe0b2", /* لون خلفية مريح */
                 fillOpacity: 0.6
             },
             onEachFeature: (feature, layer) => {
