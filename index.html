@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar">
 <head>
@@ -11,7 +12,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     
     <style>
-        /* تخصيص الخريطة Leaflet */
+        /* تخصيص خريطة Leaflet */
         #map {
             height: 100vh; /* خريطة تغطي الشاشة بالكامل */
         }
@@ -28,7 +29,11 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
-        /* نافذة الترحيب */
+        .filter-container label, .filter-container select, .filter-container input {
+            margin-bottom: 10px;
+            display: block;
+        }
+
         .welcome-container {
             position: fixed;
             top: 0;
@@ -38,20 +43,7 @@
             padding: 20px;
             text-align: center;
             z-index: 9999;
-            display: block;
-        }
-
-        /* النص داخل نافذة الترحيب */
-        .welcome-text {
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-
-        /* إضافة صورة في نافذة الترحيب */
-        .welcome-image {
-            width: 80%;
-            max-width: 600px;
-            margin: 20px 0;
+            display: none;
         }
 
         .icon-button {
@@ -61,38 +53,99 @@
             margin: 10px;
         }
 
-        /* محتوى الخريطة */
-        #map {
+        .result-container {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             display: none;
         }
+
     </style>
 </head>
 <body>
 
-    <!-- نافذة الترحيب مع الفقرة التمهيدية -->
+    <!-- نافذة الترحيب بالمستخدم -->
     <div class="welcome-container" id="welcome-container">
         <h3>مرحبًا في موقع Invest in Birzeit!</h3>
-
-        <!-- إضافة صورة هنا -->
-        <img src="https://via.placeholder.com/600x400?text=بيرزيت" alt="صورة بيرزيت" class="welcome-image">
-
-        <p class="welcome-text">
-            <strong>Invest In Birzeit</strong> هو موقع إلكتروني متخصص في بيع الأراضي عالية الجودة في منطقة بيرزيت، وهي إحدى المناطق الفلسطينية ذات الأهمية التاريخية والجغرافية. يهدف الموقع إلى توفير أفضل الخيارات لشراء الأراضي السكنية والزراعية والتجارية في بيرزيت والمناطق المجاورة، مع التركيز على الأراضي ذات المواقع الاستراتيجية والمزايا الفريدة.
-        </p>
-        <p class="welcome-text">
-            <strong>Invest In Birzeit</strong> هو منصة إلكترونية مرخصة تتيح للمشترين المحليين والدوليين الاطلاع على مجموعة واسعة من الأراضي المتاحة للبيع في بيرزيت. تشمل هذه الأراضي مساحات سكنية مخصصة لبناء المنازل العائلية، وكذلك أراضٍ زراعية ذات إمكانيات كبيرة، وأراضٍ تجارية تقع في مواقع حيوية للاستثمار.
-        </p>
-        <p class="welcome-text">
-            يقدم الموقع للمشترين والبائعين حلولًا شاملة، بدءًا من عرض الأراضي المتاحة للبيع وحتى تقديم استشارات متخصصة في الاستثمار في الأراضي وتخطيط المشاريع. كما يوفر معلومات دقيقة حول القوانين واللوائح المتعلقة بالشراء في فلسطين، مما يسهل على المستثمرين والمشترين المحليين والدوليين اتخاذ قراراتهم بثقة.
-        </p>
-        <p class="welcome-text">
-            إذا كنت تبحث عن استثمار حقيقي في الأراضي، يُوصى بزيارة <strong>Invest In Birzeit</strong> للحصول على أفضل الخيارات المتاحة.
-        </p>
-        <button class="btn btn-primary icon-button" id="enter-button">دخول الموقع</button>
+        <p>في هذا الموقع، يمكنك شراء أو بيع أراضٍ في بيرزيت. اختر الخيار المناسب أدناه للبدء.</p>
+        <button class="btn btn-primary icon-button" id="buy-land-button">شراء أرض في بيرزيت</button>
+        <button class="btn btn-success icon-button" id="sell-land-button">بيع أرض في بيرزيت</button>
     </div>
 
     <!-- محتوى الخريطة -->
     <div id="map"></div>
+
+    <!-- الفلاتر المتقدمة -->
+    <div class="filter-container" id="filter-container">
+        <h5>فلترة الأراضي</h5>
+        
+        <!-- المسافة من المدارس -->
+        <label for="schoolDistance">المسافة من المدرسة (متر): </label>
+        <input type="range" id="schoolDistance" min="100" max="800" value="400">
+        <span id="schoolDistanceValue">400 متر</span>
+
+        <!-- المسافة من الخدمات -->
+        <label for="serviceDistance">المسافة من الخدمة (متر): </label>
+        <input type="range" id="serviceDistance" min="0" max="100" value="50">
+        <span id="serviceDistanceValue">50 متر</span>
+
+        <!-- نوع الخدمة -->
+        <label for="serviceType">نوع الخدمة: </label>
+        <select id="serviceType">
+            <option value="restaurant">مطعم</option>
+            <option value="hospital">مستشفى</option>
+            <option value="fuelStation">محطة وقود</option>
+            <option value="pharmacy">صيدلية</option>
+            <option value="mosque">مسجد</option>
+            <option value="church">كنيسة</option>
+            <option value="gym">صالة رياضية</option>
+        </select>
+
+        <!-- نوع الأراضي الزراعية -->
+        <label for="agricultureType">نوع الأرض الزراعية: </label>
+        <select id="agricultureType">
+            <option value="medium">أرض متوسطة القيمة الزراعية</option>
+            <option value="low">أرض منخفضة القيمة الزراعية</option>
+        </select>
+
+        <!-- نوع الشارع -->
+        <label for="roadType">نوع الشارع: </label>
+        <select id="roadType">
+            <option value="main">شارع رئيسي</option>
+            <option value="secondary">شارع فرعي</option>
+        </select>
+
+        <!-- المواصلات -->
+        <label for="transportation">المواصلات: </label>
+        <select id="transportation">
+            <option value="near">قريبة</option>
+            <option value="far">بعيدة</option>
+        </select>
+
+        <!-- النفايات -->
+        <label for="wasteDistance">المسافة من مكبات النفايات (متر): </label>
+        <input type="range" id="wasteDistance" min="300" max="700" value="500">
+        <span id="wasteDistanceValue">500 متر</span>
+
+        <!-- زر تطبيق الفلاتر -->
+        <button class="btn btn-primary" id="applyFilters">تطبيق الفلاتر</button>
+    </div>
+
+    <!-- نافذة نتائج الأرض المطابقة -->
+    <div class="result-container" id="result-container">
+        <h5>معلومات الأرض المطابقة:</h5>
+        <p><strong>رقم القطعة:</strong> <span id="landNumber">XXX</span></p>
+        <p><strong>المالك:</strong> <span id="ownerName">أحمد محمد</span></p>
+        <p><strong>السعر:</strong> <span id="landPrice">₪ 0</span></p>
+        <p><strong>رقم الهاتف:</strong> <span id="ownerPhone">0598XXXXXX</span></p>
+        <button class="btn btn-success" id="backToFilters">الرجوع إلى الفلاتر</button>
+    </div>
 
     <!-- تحميل مكتبات JavaScript -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -109,10 +162,18 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // إخفاء نافذة الترحيب وعرض الخريطة عند الضغط على زر "دخول الموقع"
-        $('#enter-button').on('click', function() {
-            $('#welcome-container').fadeOut(); // إخفاء نافذة الترحيب
-            $('#map').fadeIn(); // إظهار الخريطة
+        // عرض نافذة الترحيب عند تحميل الصفحة
+        $(document).ready(function() {
+            $('#welcome-container').fadeIn();
+        });
+
+        // إغلاق نافذة الترحيب عند الضغط على الأزرار
+        $('#buy-land-button').on('click', function() {
+            $('#welcome-container').fadeOut();
+        });
+
+        $('#sell-land-button').on('click', function() {
+            $('#welcome-container').fadeOut();
         });
 
         // تحميل البيانات من GeoJSON وإضافتها كطبقات
@@ -128,7 +189,7 @@
                 .catch(error => console.error(`Error loading ${url}:`, error));
         };
 
-        // تحميل الطبقات الخاصة بالأراضي، المدارس، الطرق، الخ
+        // 1. طبقة الأراضي
         loadGeoJSON('https://raghadakare.github.io/Birziet_Parcels.json', {
             style: {
                 color: "black",
@@ -145,7 +206,80 @@
             name: 'الأراضي'
         });
 
-        // إضافة المزيد من الطبقات هنا
+        // 2. طبقة المدارس
+        loadGeoJSON('https://raghadakare.github.io/Birziet_Schools.json', {
+            pointToLayer: (feature, latlng) => L.marker(latlng, { icon: L.divIcon({ html: "🏫", iconSize: [20, 20] }) }),
+            onEachFeature: (feature, layer) => {
+                layer.bindPopup(`<strong>المدرسة:</strong> ${feature.properties.SchoolNa_1}`);
+            },
+            name: 'المدارس'
+        });
+
+        // 3. طبقة الطرق
+        loadGeoJSON('https://raghadakare.github.io/Birziet_Roads.json', {
+            style: {
+                color: "gray",
+                weight: 2
+            },
+            name: 'الطرق'
+        });
+
+        // 4. طبقة الخدمات
+        loadGeoJSON('https://raghadakare.github.io/Birziet_Facilities.json', {
+            pointToLayer: (feature, latlng) => L.circleMarker(latlng, {
+                radius: 5,
+                fillColor: "green",
+                color: "#000",
+                weight: 1,
+                fillOpacity: 0.8
+            }),
+            onEachFeature: (feature, layer) => {
+                layer.bindPopup(`
+                    <strong>الخدمة:</strong> ${feature.properties.Facility_E}<br>
+                    <strong>التصنيف:</strong> ${feature.properties.Category_E}
+                `);
+            },
+            name: 'الخدمات'
+        });
+
+        // 5. طبقة المكبات
+        loadGeoJSON('https://raghadakare.github.io/Birziet_Dumping.json', {
+            pointToLayer: (feature, latlng) => L.circleMarker(latlng, {
+                radius: 5,
+                fillColor: "red",
+                color: "#000",
+                weight: 1,
+                fillOpacity: 0.8
+            }),
+            onEachFeature: (feature, layer) => {
+                layer.bindPopup(`<strong>المكب:</strong> ${feature.properties.SiteName_E}`);
+            },
+            name: 'المكبات'
+        });
+
+        // 6. طبقة القيمة الزراعية
+        loadGeoJSON('https://raghadakare.github.io/Birziet_Agri.json', {
+            style: {
+                color: "yellow",
+                fillColor: "#ffff99",
+                fillOpacity: 0.6
+            },
+            name: 'القيمة الزراعية'
+        });
+
+        // 7. طبقة تصنيفات الأراضي
+        loadGeoJSON('https://raghadakare.github.io/Birziet_ABC.json', {
+            style: {
+                color: "orange",
+                fillColor: "#ffcc00",
+                fillOpacity: 0.6
+            },
+            onEachFeature: (feature, layer) => {
+                layer.bindPopup(`<strong>تصنيف الأرض:</strong> ${feature.properties.Type}`);
+            },
+            name: 'تصنيفات الأراضي'
+        });
+
     </script>
 </body>
 </html>
