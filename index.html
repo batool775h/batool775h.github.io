@@ -191,9 +191,10 @@
         // 1. طبقة الأراضي
         loadGeoJSON('https://raghadakare.github.io/Birziet_Parcels.json', {
             style: {
-                color: "#4A4A4A",
-                fillColor: "#A3D3E2",
-                fillOpacity: 0.7
+                color: "black",
+                fillColor: "beige",
+                fillOpacity: 0.7,
+                weight: 1
             },
             onEachFeature: (feature, layer) => {
                 layer.bindPopup(`
@@ -217,8 +218,8 @@
         // 3. طبقة الطرق
         loadGeoJSON('https://raghadakare.github.io/Birziet_Roads.json', {
             style: {
-                color: "#858585",
-                weight: 2
+                color: "gray",
+                weight: 1
             },
             name: 'الطرق'
         });
@@ -227,9 +228,9 @@
         loadGeoJSON('https://raghadakare.github.io/Birziet_Facilities.json', {
             pointToLayer: (feature, latlng) => L.circleMarker(latlng, {
                 radius: 5,
-                fillColor: "#34A853",
+                fillColor: "green",
                 color: "#000",
-                weight: 1,
+                weight: 0.5,
                 fillOpacity: 0.8
             }),
             onEachFeature: (feature, layer) => {
@@ -245,9 +246,9 @@
         loadGeoJSON('https://raghadakare.github.io/Birziet_Dumping.json', {
             pointToLayer: (feature, latlng) => L.circleMarker(latlng, {
                 radius: 5,
-                fillColor: "#E94040",
+                fillColor: "red",
                 color: "#000",
-                weight: 1,
+                weight: 0.5,
                 fillOpacity: 0.8
             }),
             onEachFeature: (feature, layer) => {
@@ -259,9 +260,10 @@
         // 6. طبقة القيمة الزراعية
         loadGeoJSON('https://raghadakare.github.io/Birziet_Agri.json', {
             style: {
-                color: "#FFC107",
-                fillColor: "#FFF5CC",
-                fillOpacity: 0.6
+                color: "yellow",
+                fillColor: "#ffff99",
+                fillOpacity: 0.6,
+                weight: 0.5
             },
             name: 'القيمة الزراعية'
         });
@@ -269,9 +271,10 @@
         // 7. طبقة تصنيفات الأراضي
         loadGeoJSON('https://raghadakare.github.io/Birziet_ABC.json', {
             style: {
-                color: "#FF5722",
-                fillColor: "#FFD7C7",
-                fillOpacity: 0.6
+                color: "orange",
+                fillColor: "#ffcc00",
+                fillOpacity: 0.6,
+                weight: 0.5
             },
             onEachFeature: (feature, layer) => {
                 layer.bindPopup(`<strong>تصنيف الأرض:</strong> ${feature.properties.Type}`);
