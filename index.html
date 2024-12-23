@@ -14,11 +14,13 @@
         body {
             direction: rtl;
             text-align: right;
+            background-color: #f0f0f0; /* لون خلفية فاتح */
+            font-family: 'Arial', sans-serif;
         }
 
         /* تخصيص خريطة Leaflet */
         #map {
-            height: 100vh; /* خريطة تغطي الشاشة بالكامل */
+            height: 100vh;
         }
 
         /* تصميم الفلاتر بشكل جذاب */
@@ -33,19 +35,14 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
-        .filter-container label, .filter-container select, .filter-container input {
-            margin-bottom: 10px;
-            display: block;
-            color: #333;
-        }
-
+        /* تصميم نافذة الترحيب بشكل فاخر */
         .welcome-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(255, 255, 255, 0.9));
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(255, 255, 255, 0.8));
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -59,7 +56,7 @@
             font-size: 3rem;
             font-weight: bold;
             margin-bottom: 20px;
-            color: #28a745;
+            color: #28a745; /* لون أخضر فخم */
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
@@ -67,6 +64,7 @@
             font-size: 1.5rem;
             margin-bottom: 40px;
             color: #f0f0f0;
+            font-weight: 300;
         }
 
         .btn-container {
@@ -92,7 +90,7 @@
 
         .info-section {
             padding: 20px;
-            background-color: #f9f9f9;
+            background-color: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin: 20px;
@@ -116,7 +114,7 @@
     <!-- نافذة الترحيب بالمستخدم -->
     <div class="welcome-container" id="welcome-container">
         <h1>مرحبًا بك في Invest in Birzeit!</h1>
-        <p>ابدأ رحلتك معنا لاستكشاف وبيع وشراء الأراضي بطريقة مبتكرة وسهلة.</p>
+        <p>انطلق في رحلة استثمارية رائعة لاكتشاف الأراضي المميزة في بيرزيت. هنا يمكنك شراء وبيع الأراضي بشكل سهل وآمن.</p>
         <div class="btn-container">
             <button class="btn" id="buy-land-button">شراء أرض</button>
             <button class="btn" id="sell-land-button">بيع أرض</button>
@@ -156,10 +154,7 @@
     <!-- فقرة معلومات عن الشركة -->
     <div class="info-section">
         <h2>عن موقع Invest in Birzeit</h2>
-        <p>موقع Invest in Birzeit هو منصة إلكترونية متخصصة في تقديم خدمات بيع وشراء العقارات السكنية والتجارية في مدينة بيرزيت. تم تأسيس الموقع لتلبية احتياجات العملاء الباحثين عن حلول عقارية مميزة وسهلة الوصول. 
-        يوفر الموقع مجموعة واسعة من العقارات الفاخرة، بما في ذلك المنازل العائلية الكبيرة والشقق الفاخرة والمساحات التجارية، محاطة بجمال الطبيعة والأماكن المميزة في بيرزيت. 
-        فريق العمل لدينا يتمتع بخبرة واسعة في مجال العقارات، ويعمل دائمًا على توفير أفضل الحلول التي تلبي احتياجات العملاء مع التركيز على رضاهم. 
-        انطلق معنا في رحلتك العقارية وتمتع بالخدمات عالية الجودة التي نقدمها.</p>
+        <p>موقع Invest in Birzeit هو منصة إلكترونية متخصصة في تقديم خدمات بيع وشراء الأراضي في مدينة بيرزيت. تم تأسيس الموقع لتلبية احتياجات العملاء الباحثين عن فرص استثمارية مميزة وأراضٍ ذات موقع استراتيجي، محاطة بالجمال الطبيعي الخلاب. يوفر الموقع مجموعة واسعة من الأراضي ذات الإمكانيات المتنوعة، لتناسب كافة احتياجات المستثمرين.</p>
     </div>
 
     <!-- واجهة تواصل معنا -->
