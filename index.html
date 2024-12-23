@@ -150,6 +150,25 @@
                 <label for="expected-price">السعر المتوقع:</label>
                 <input type="number" class="form-control" id="expected-price" required>
             </div>
+            <!-- إضافة حقل الموقع -->
+            <div class="form-group">
+                <label for="land-location">الموقع:</label>
+                <input type="text" class="form-control" id="land-location" required>
+            </div>
+            <!-- إضافة حقل تصنيف الأرض -->
+            <div class="form-group">
+                <label for="land-category">تصنيف الأرض:</label>
+                <select class="form-control" id="land-category" required>
+                    <option value="commercial">تجاري</option>
+                    <option value="residential">سكني</option>
+                    <option value="agricultural">زراعي</option>
+                </select>
+            </div>
+            <!-- إضافة حقل المساحة -->
+            <div class="form-group">
+                <label for="land-size">المساحة (متر مربع):</label>
+                <input type="number" class="form-control" id="land-size" required>
+            </div>
             <button type="submit" class="btn btn-success">إرسال</button>
         </form>
     </div>
