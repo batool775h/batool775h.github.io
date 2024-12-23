@@ -9,30 +9,28 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
     <!-- إضافة Bootstrap CSS لتحسين تصميم واجهة المستخدم -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- إضافة خطوط فاخرة -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     
     <style>
         body {
             direction: rtl;
             text-align: right;
-            background-color: #f4f4f4; /* خلفية هادئة */
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7f6; /* خلفية ناعمة */
         }
 
         /* تخصيص خريطة Leaflet */
         #map {
-            height: 100vh;
+            height: 80vh; /* خريطة تغطي جزء كبير من الصفحة */
         }
 
-        /* تصميم نافذة الترحيب بشكل فاخر */
+        /* نافذة ترحيبية */
         .welcome-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(255, 255, 255, 0.8));
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(255, 255, 255, 0.9));
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -43,101 +41,104 @@
         }
 
         .welcome-container h1 {
-            font-size: 4rem;
-            font-weight: 700;
-            margin-bottom: 30px;
-            color: #FFD700; /* لون ذهبي فاخر */
-            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #28a745;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         .welcome-container p {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             margin-bottom: 40px;
             color: #f0f0f0;
-            font-weight: 300;
-            line-height: 1.8;
         }
 
         .btn-container {
             display: flex;
-            gap: 25px;
+            gap: 20px;
         }
 
         .btn-container .btn {
-            font-size: 1.3rem;
-            padding: 18px 35px;
+            font-size: 1.2rem;
+            padding: 15px 30px;
             border-radius: 10px;
-            background-color: #28a745; /* أخضر فاخر */
+            background-color: #28a745;
             border: none;
             color: white;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .btn-container .btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
         }
 
-        /* تخصيص تأثيرات الأزرار عند التمرير */
-        .btn-container .btn:focus {
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(0, 255, 0, 0.5);
+        /* شريط التصفية */
+        .filter-container {
+            position: absolute;
+            top: 20%;
+            right: 2%;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        /* تصميم معلومات الشركة */
+        .filter-container label, .filter-container select {
+            font-size: 1.1rem;
+        }
+
+        /* نافذة منبثقة عند اختيار الأرض */
+        .popup-content {
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .popup-content h3 {
+            color: #28a745;
+        }
+
+        .popup-content p {
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        /* تحسين واجهة صفحات بيع وشراء الأرض */
         .info-section {
-            padding: 30px;
-            background-color: #ffffff;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            margin: 30px auto;
-            max-width: 1200px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 20px;
         }
 
         .info-section h2 {
-            font-size: 2.5rem;
+            font-size: 2rem;
             color: #333;
-            margin-bottom: 25px;
-            font-weight: 500;
+            margin-bottom: 15px;
         }
 
         .info-section p {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: #555;
             line-height: 1.8;
-            text-align: justify;
-        }
-
-        /* إضافة تأثيرات أخرى لتحسين تجربة المستخدم */
-        .header-logo {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #FFD700;
-            margin-bottom: 20px;
-            text-align: center;
-            letter-spacing: 2px;
-        }
-        
-        /* تصميم خلفية الأزرار */
-        .btn-container .btn {
-            border: 2px solid #FFD700;
-            background-color: transparent;
-            color: #FFD700;
-        }
-
-        .btn-container .btn:hover {
-            background-color: #FFD700;
-            color: #fff;
         }
     </style>
 </head>
 <body>
 
-    <!-- نافذة الترحيب بالمستخدم -->
+    <!-- نافذة الترحيب -->
     <div class="welcome-container" id="welcome-container">
         <h1>مرحبًا بك في Invest in Birzeit!</h1>
-        <p>اكتشف الأراضي الرائعة في بيرزيت، استثمر في الفرص المتميزة لشراء وبيع الأراضي مع منصة متطورة وسهلة الاستخدام.</p>
+        <p>استكشف، اشترِ، وبيع الأراضي بطريقة سهلة ومبتكرة في بيرزيت.</p>
         <div class="btn-container">
             <button class="btn" id="buy-land-button">شراء أرض</button>
             <button class="btn" id="sell-land-button">بيع أرض</button>
@@ -145,46 +146,37 @@
         </div>
     </div>
 
-    <!-- محتوى الخريطة (الصفحة الرئيسية) -->
+    <!-- محتوى الخريطة -->
     <div id="map-page" style="display: none;">
         <div id="map"></div>
     </div>
 
-    <!-- واجهة بيع الأرض -->
-    <div id="sell-land-page" style="display: none; padding: 20px;">
-        <h2>بيع أرض</h2>
-        <form>
-            <div class="form-group">
-                <label for="land-specs">مواصفات الأرض:</label>
-                <textarea class="form-control" id="land-specs" rows="3" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="seller-name">اسم البائع:</label>
-                <input type="text" class="form-control" id="seller-name" required>
-            </div>
-            <div class="form-group">
-                <label for="seller-phone">رقم الهاتف:</label>
-                <input type="tel" class="form-control" id="seller-phone" required>
-            </div>
-            <div class="form-group">
-                <label for="expected-price">السعر المتوقع:</label>
-                <input type="number" class="form-control" id="expected-price" required>
-            </div>
-            <button type="submit" class="btn btn-success">إرسال</button>
-        </form>
+    <!-- شريط الفلاتر -->
+    <div class="filter-container" id="filter-container">
+        <label for="price-filter">السعر:</label>
+        <select id="price-filter" class="form-control">
+            <option value="all">جميع الأسعار</option>
+            <option value="low">منخفض</option>
+            <option value="medium">متوسط</option>
+            <option value="high">عالي</option>
+        </select>
+
+        <label for="size-filter">الحجم:</label>
+        <select id="size-filter" class="form-control">
+            <option value="all">جميع الأحجام</option>
+            <option value="small">صغير</option>
+            <option value="medium">متوسط</option>
+            <option value="large">كبير</option>
+        </select>
     </div>
 
-    <!-- فقرة معلومات عن الشركة -->
-    <div class="info-section">
-        <h2>عن موقع Invest in Birzeit</h2>
-        <p>موقع Invest in Birzeit هو منصة إلكترونية متخصصة في تقديم خدمات بيع وشراء الأراضي في مدينة بيرزيت. نقدم لك الفرص الأفضل في مجال الأراضي مع مجموعة متنوعة من الخيارات التي تناسب جميع احتياجاتك الاستثمارية. انطلق معنا في عالم الأراضي الفاخر والمبني على تقنيات حديثة.</p>
-    </div>
-
-    <!-- واجهة تواصل معنا -->
-    <div id="contact-us-page" style="display: none; text-align: center; padding: 20px;">
-        <h2>تواصل معنا</h2>
-        <p>يمكنك التواصل معنا عبر البريد الإلكتروني التالي:</p>
-        <p><a href="mailto:batoolhammad67@gmail.com">batoolhammad67@gmail.com</a></p>
+    <!-- تفاصيل الأرض -->
+    <div class="popup-content" id="land-details" style="display: none;">
+        <h3>تفاصيل الأرض</h3>
+        <p><strong>الموقع:</strong> بيرزيت</p>
+        <p><strong>السعر:</strong> 100,000 دولار</p>
+        <p><strong>المساحة:</strong> 500 متر مربع</p>
+        <button class="btn btn-success" onclick="buyLand()">شراء</button>
     </div>
 
     <!-- تحميل مكتبات JavaScript -->
@@ -210,6 +202,7 @@
 
             $('#buy-land-button').on('click', function() {
                 $('#map-page').show();
+                $('#filter-container').show();
             });
 
             $('#sell-land-button').on('click', function() {
@@ -220,6 +213,15 @@
                 $('#contact-us-page').show();
             });
         });
+
+        // إضافة نافذة منبثقة لتفاصيل الأرض
+        function showLandDetails() {
+            $('#land-details').show();
+        }
+
+        function buyLand() {
+            alert('تم شراء الأرض بنجاح!');
+        }
     </script>
 </body>
 </html>
