@@ -110,6 +110,73 @@
             text-align: center;
             letter-spacing: 2px;
         }
+
+        /* نافذة التعليقات أو التقرير */
+        #feedback-modal {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #2e2e4e; /* كحلي أفتح */
+            color: #f4f4f4;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 10000;
+            width: 300px;
+        }
+
+        #feedback-modal h3 {
+            font-size: 1.8rem;
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+
+        #feedback-modal textarea {
+            width: 100%;
+            height: 100px;
+            background-color: #1a1a2e;
+            border: 2px solid #FFD700;
+            border-radius: 8px;
+            color: #f4f4f4;
+            padding: 10px;
+            resize: none;
+        }
+
+        #feedback-modal button {
+            background-color: #FFD700;
+            color: #1a1a2e;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin-top: 10px;
+            width: 100%;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        #feedback-modal button:hover {
+            background-color: #ffcc00;
+        }
+
+        #open-feedback-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #FFD700;
+            color: #1a1a2e;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            z-index: 10001;
+        }
+
+        #open-feedback-btn:hover {
+            background-color: #ffcc00;
+        }
     </style>
 </head>
 <body>
@@ -199,6 +266,16 @@
         </ul>
     </div>
 
+    <!-- نافذة التعليقات -->
+    <div id="feedback-modal">
+        <h3>اكتب تعليقك أو تقريرك</h3>
+        <textarea placeholder="اكتب هنا..." id="feedback-text"></textarea>
+        <button onclick="submitFeedback()">إرسال</button>
+    </div>
+
+    <!-- زر فتح نافذة التعليقات -->
+    <button id="open-feedback-btn" onclick="toggleFeedbackModal()">💬</button>
+
     <!-- تحميل مكتبات JavaScript -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
@@ -232,6 +309,24 @@
                 $('#contact-us-page').show();
             });
         });
+
+        // إظهار/إخفاء نافذة التعليقات
+        function toggleFeedbackModal() {
+            const modal = document.getElementById('feedback-modal');
+            modal.style.display = modal.style.display === 'none' || modal.style.display === '' ? 'block' : 'none';
+        }
+
+        // إرسال التعليق
+        function submitFeedback() {
+            const feedback = document.getElementById('feedback-text').value;
+            if (feedback.trim() !== '') {
+                alert('شكراً لتعليقك! سيتم النظر فيه.');
+                document.getElementById('feedback-text').value = ''; // مسح النص
+                toggleFeedbackModal(); // إغلاق النافذة
+            } else {
+                alert('يرجى كتابة تعليق أو تقرير.');
+            }
+        }
     </script>
 </body>
 </html>
