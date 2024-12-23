@@ -9,272 +9,151 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
     <!-- إضافة Bootstrap CSS لتحسين تصميم واجهة المستخدم -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- إضافة خطوط فاخرة -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- إضافة مكتبة Font Awesome للأيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <style>
-        body {
-            direction: rtl;
-            text-align: right;
-            background-color: #1a1a2e; /* كحلي غامق */
-            color: #f4f4f4; /* لون النص فاتح */
-            font-family: 'Cairo', sans-serif;
-        }
-
-        /* تخصيص خريطة Leaflet */
+        /* تحديث تصميم الخريطة */
         #map {
-            height: 100vh;
+            height: 100vh; /* خريطة تغطي الشاشة بالكامل */
         }
 
-        /* تصميم نافذة الترحيب بشكل فاخر */
-        .welcome-container {
-            position: fixed;
-            top: 0;
-            left: 0;
+        /* نافذة الفلترة العصرية */
+        .filter-container {
+            position: absolute;
+            top: 10%;
+            left: 2%;
+            z-index: 999;
+            background-color: rgba(240, 248, 255, 0.9); /* لون هادئ */
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: none; /* إخفاء الفلترة بشكل افتراضي */
+        }
+
+        .filter-container h5 {
+            font-family: 'Arial', sans-serif;
+            color: #333;
+        }
+
+        .filter-container label {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .filter-container select, .filter-container input {
+            margin-bottom: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, rgba(26, 26, 46, 0.9), rgba(255, 215, 0, 0.2));
+        }
+
+        .filter-container button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .filter-container button:hover {
+            background-color: #0056b3;
+        }
+
+        /* تصميم أيقونة الفلترة */
+        .filter-icon {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
-            z-index: 9999;
-            text-align: center;
-            color: #FFD700; /* ذهبي مطفي */
-        }
-
-        .welcome-container h1 {
-            font-size: 4rem;
-            font-weight: 700;
-            margin-bottom: 30px;
-            color: #FFD700; /* لون ذهبي مطفي */
-            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
-        }
-
-        .welcome-container p {
-            font-size: 1.6rem;
-            margin-bottom: 40px;
-            font-weight: 400;
-            line-height: 1.8;
-            color: #f0f0f0;
-        }
-
-        .btn-container {
-            display: flex;
-            gap: 25px;
-        }
-
-        .btn-container .btn {
-            font-size: 1.3rem;
-            padding: 18px 35px;
-            border-radius: 10px;
-            background-color: transparent;
-            border: 2px solid #FFD700; /* ذهبي مطفي */
-            color: #FFD700;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .btn-container .btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 15px rgba(255, 215, 0, 0.4);
-        }
-
-        .info-section {
-            padding: 30px;
-            background-color: #2e2e4e; /* كحلي أفتح */
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            margin: 30px auto;
-            max-width: 1200px;
-            color: #f4f4f4;
-        }
-
-        .info-section h2 {
-            font-size: 2.5rem;
-            color: #FFD700; /* ذهبي مطفي */
-            margin-bottom: 25px;
-            font-weight: 600;
-        }
-
-        .info-section p {
-            font-size: 1.3rem;
-            line-height: 1.8;
-            text-align: justify;
-        }
-
-        .header-logo {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #FFD700;
-            margin-bottom: 20px;
-            text-align: center;
-            letter-spacing: 2px;
-        }
-
-        /* نافذة التعليقات أو التقرير */
-        #feedback-modal {
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 50%;
+            font-size: 20px;
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background-color: #2e2e4e; /* كحلي أفتح */
-            color: #f4f4f4;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            display: none;
-            z-index: 10000;
-            width: 300px;
-        }
-
-        #feedback-modal h3 {
-            font-size: 1.8rem;
-            color: #FFD700;
-            margin-bottom: 10px;
-        }
-
-        #feedback-modal textarea {
-            width: 100%;
-            height: 100px;
-            background-color: #1a1a2e;
-            border: 2px solid #FFD700;
-            border-radius: 8px;
-            color: #f4f4f4;
-            padding: 10px;
-            resize: none;
-        }
-
-        #feedback-modal button {
-            background-color: #FFD700;
-            color: #1a1a2e;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            margin-top: 10px;
-            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             cursor: pointer;
-            font-size: 1.2rem;
+            transition: background-color 0.3s, transform 0.2s;
         }
 
-        #feedback-modal button:hover {
-            background-color: #ffcc00;
-        }
-
-        #open-feedback-btn {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background-color: #FFD700;
-            color: #1a1a2e;
-            border: none;
-            padding: 15px 20px;
-            border-radius: 50%;
-            font-size: 1.5rem;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-            z-index: 10001;
-        }
-
-        #open-feedback-btn:hover {
-            background-color: #ffcc00;
+        .filter-icon:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
         }
     </style>
 </head>
 <body>
 
-    <!-- نافذة الترحيب بالمستخدم -->
-    <div class="welcome-container" id="welcome-container">
-        <h1>مرحبًا بك في Invest in Birzeit!</h1>
-        <p>نقدم لكم تجربة مميزة في بيع وشراء الأراضي، حيث نضمن لك الأمان والشفافية التامة مع خيارات تناسب احتياجاتك الاستثمارية.</p>
-        <div class="btn-container">
-            <button class="btn" id="buy-land-button">شراء أرض</button>
-            <button class="btn" id="sell-land-button">بيع أرض</button>
-            <button class="btn" id="contact-us-button">تواصل معنا</button>
-        </div>
+    <!-- أيقونة الفلترة -->
+    <div class="filter-icon" id="filter-icon">
+        <i class="fas fa-filter"></i>
     </div>
 
-    <!-- محتوى الخريطة (الصفحة الرئيسية) -->
-    <div id="map-page" style="display: none;">
-        <div id="map"></div>
-    </div>
+    <!-- محتوى الخريطة -->
+    <div id="map"></div>
 
-    <!-- واجهة بيع الأرض -->
-    <div id="sell-land-page" style="display: none; padding: 20px;">
-        <h2>بيع أرض</h2>
-        <form>
-            <div class="form-group">
-                <label for="land-specs">مواصفات الأرض:</label>
-                <textarea class="form-control" id="land-specs" rows="3" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="seller-name">اسم البائع:</label>
-                <input type="text" class="form-control" id="seller-name" required>
-            </div>
-            <div class="form-group">
-                <label for="seller-phone">رقم الهاتف:</label>
-                <input type="tel" class="form-control" id="seller-phone" required>
-            </div>
-            <div class="form-group">
-                <label for="expected-price">السعر المتوقع:</label>
-                <input type="number" class="form-control" id="expected-price" required>
-            </div>
-            <div class="form-group">
-                <label for="land-location">الموقع:</label>
-                <input type="text" class="form-control" id="land-location" required>
-            </div>
-            <div class="form-group">
-                <label for="land-category">تصنيف الأرض:</label>
-                <select class="form-control" id="land-category">
-                    <option value="commercial">تجاري</option>
-                    <option value="residential">سكني</option>
-                    <option value="agricultural">زراعي</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="land-area">المساحة (بالمتر المربع):</label>
-                <input type="number" class="form-control" id="land-area" required>
-            </div>
-            <button type="submit" class="btn btn-success">إرسال</button>
-        </form>
-    </div>
+    <!-- الفلاتر المتقدمة -->
+    <div class="filter-container" id="filter-container">
+        <h5>فلترة الأراضي</h5>
 
-    <!-- فقرة معلومات عن الشركة -->
-    <div class="info-section">
-        <h2>عن موقع Invest in Birzeit</h2>
-        <p>موقع Invest in Birzeit هو منصة إلكترونية متخصصة في تقديم خدمات بيع وشراء الأراضي في مدينة بيرزيت. نعمل بجد لضمان رضا العملاء وتقديم خيارات استثمارية تلبي تطلعاتهم بفضل فريق عمل محترف وخبرة واسعة.</p>
-    </div>
+        <!-- المسافة من المدارس -->
+        <label for="schoolDistance">المسافة من المدرسة (متر): </label>
+        <input type="range" id="schoolDistance" min="100" max="800" value="400">
+        <span id="schoolDistanceValue">400 متر</span>
 
-    <!-- واجهة تواصل معنا -->
-    <div id="contact-us-page" style="display: none; text-align: center; padding: 20px;">
-        <h2>تواصل معنا</h2>
-        <p>يمكنك التواصل معنا عبر البريد الإلكتروني أو الهاتف:</p>
-        <ul style="list-style-type: none; padding: 0;">
-            <li>
-                <strong>Batool Hammad</strong><br>
-                هاتف: <a href="tel:0597136553">0597136553</a><br>
-                بريد إلكتروني: <a href="mailto:batoolhammad67@gmail.com">batoolhammad67@gmail.com</a>
-            </li>
-            <li>
-                <strong>Sjod Razem</strong><br>
-                هاتف: <a href="tel:0538239999">0538239999</a><br>
-                بريد إلكتروني: <a href="mailto:razemsjod9@gmail.com">razemsjod9@gmail.com</a>
-            </li>
-            <li>
-                <strong>Raghad Akare</strong><br>
-                هاتف: <a href="tel:0587288488">0587288488</a><br>
-                بريد إلكتروني: <a href="mailto:raghadakare1@gmail.com">raghadakare1@gmail.com</a>
-            </li>
-        </ul>
-    </div>
+        <!-- المسافة من الخدمات -->
+        <label for="serviceDistance">المسافة من الخدمة (متر): </label>
+        <input type="range" id="serviceDistance" min="0" max="100" value="50">
+        <span id="serviceDistanceValue">50 متر</span>
 
-    <!-- نافذة التعليقات -->
-    <div id="feedback-modal">
-        <h3>اكتب تعليقك أو تقريرك</h3>
-        <textarea placeholder="اكتب هنا..." id="feedback-text"></textarea>
-        <button onclick="submitFeedback()">إرسال</button>
-    </div>
+        <!-- نوع الخدمة -->
+        <label for="serviceType">نوع الخدمة: </label>
+        <select id="serviceType">
+            <option value="restaurant">مطعم</option>
+            <option value="hospital">مستشفى</option>
+            <option value="fuelStation">محطة وقود</option>
+            <option value="pharmacy">صيدلية</option>
+            <option value="mosque">مسجد</option>
+            <option value="church">كنيسة</option>
+            <option value="gym">صالة رياضية</option>
+        </select>
 
-    <!-- زر فتح نافذة التعليقات -->
-    <button id="open-feedback-btn" onclick="toggleFeedbackModal()">💬</button>
+        <!-- نوع الأراضي الزراعية -->
+        <label for="agricultureType">نوع الأرض الزراعية: </label>
+        <select id="agricultureType">
+            <option value="medium">أرض متوسطة القيمة الزراعية</option>
+            <option value="low">أرض منخفضة القيمة الزراعية</option>
+        </select>
+
+        <!-- نوع الشارع -->
+        <label for="roadType">نوع الشارع: </label>
+        <select id="roadType">
+            <option value="main">شارع رئيسي</option>
+            <option value="secondary">شارع فرعي</option>
+        </select>
+
+        <!-- المواصلات -->
+        <label for="transportation">المواصلات: </label>
+        <select id="transportation">
+            <option value="near">قريبة</option>
+            <option value="far">بعيدة</option>
+        </select>
+
+        <!-- النفايات -->
+        <label for="wasteDistance">المسافة من مكبات النفايات (متر): </label>
+        <input type="range" id="wasteDistance" min="300" max="700" value="500">
+        <span id="wasteDistanceValue">500 متر</span>
+
+        <!-- زر تطبيق الفلاتر -->
+        <button class="btn btn-primary" id="applyFilters">تطبيق الفلاتر</button>
+    </div>
 
     <!-- تحميل مكتبات JavaScript -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -291,42 +170,38 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // التنقل بين الصفحات
-        $(document).ready(function() {
-            $('.btn').on('click', function() {
-                $('.welcome-container').hide();
-            });
-
-            $('#buy-land-button').on('click', function() {
-                $('#map-page').show();
-            });
-
-            $('#sell-land-button').on('click', function() {
-                $('#sell-land-page').show();
-            });
-
-            $('#contact-us-button').on('click', function() {
-                $('#contact-us-page').show();
-            });
+        // عرض نافذة الفلترة عند الضغط على الأيقونة
+        $('#filter-icon').on('click', function() {
+            $('#filter-container').fadeToggle();
         });
 
-        // إظهار/إخفاء نافذة التعليقات
-        function toggleFeedbackModal() {
-            const modal = document.getElementById('feedback-modal');
-            modal.style.display = modal.style.display === 'none' || modal.style.display === '' ? 'block' : 'none';
-        }
+        // تحميل البيانات من GeoJSON وإضافتها كطبقات
+        const loadGeoJSON = (url, options = {}) => {
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const layer = L.geoJSON(data, options).addTo(map);
+                    if (options.name) {
+                        L.control.layers(null, { [options.name]: layer }).addTo(map);
+                    }
+                })
+                .catch(error => console.error(`Error loading ${url}:`, error));
+        };
 
-        // إرسال التعليق
-        function submitFeedback() {
-            const feedback = document.getElementById('feedback-text').value;
-            if (feedback.trim() !== '') {
-                alert('شكراً لتعليقك! سيتم النظر فيه.');
-                document.getElementById('feedback-text').value = ''; // مسح النص
-                toggleFeedbackModal(); // إغلاق النافذة
-            } else {
-                alert('يرجى كتابة تعليق أو تقرير.');
-            }
-        }
+        // ألوان جديدة للطبقات
+        loadGeoJSON('https://raghadakare.github.io/Birziet_Parcels.json', {
+            style: { color: "#cccccc", fillColor: "#f2f2f2", fillOpacity: 0.7 },
+            onEachFeature: (feature, layer) => {
+                layer.bindPopup(`
+                    <strong>رقم القطعة:</strong> ${feature.properties.ParcelNumb}<br>
+                    <strong>المساحة:</strong> ${feature.properties.Shape_Area} م²<br>
+                    <strong>السعر:</strong> ₪${feature.properties.price}
+                `);
+            },
+            name: 'الأراضي'
+        });
+
+        // إعداد باقي الطبقات بألوان هادئة مشابهة كما هو موضح في الرد السابق
     </script>
 </body>
 </html>
