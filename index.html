@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
@@ -79,7 +79,6 @@
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
         }
 
-        /* تخصيص تأثيرات الأزرار عند التمرير */
         .btn-container .btn:focus {
             outline: none;
             box-shadow: 0 0 0 2px rgba(0, 255, 0, 0.5);
@@ -109,26 +108,36 @@
             text-align: justify;
         }
 
-        /* إضافة تأثيرات أخرى لتحسين تجربة المستخدم */
-        .header-logo {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #FFD700;
-            margin-bottom: 20px;
+        /* واجهة تواصل معنا */
+        .contact-box {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 600px;
+            margin: 20px auto;
             text-align: center;
-            letter-spacing: 2px;
-        }
-        
-        /* تصميم خلفية الأزرار */
-        .btn-container .btn {
-            border: 2px solid #FFD700;
-            background-color: transparent;
-            color: #FFD700;
         }
 
-        .btn-container .btn:hover {
-            background-color: #FFD700;
-            color: #fff;
+        .contact-box h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .contact-box p {
+            font-size: 1.2rem;
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .contact-box a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .contact-box a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -159,6 +168,23 @@
                 <textarea class="form-control" id="land-specs" rows="3" required></textarea>
             </div>
             <div class="form-group">
+                <label for="land-size">مساحة الأرض:</label>
+                <input type="text" class="form-control" id="land-size" required>
+            </div>
+            <div class="form-group">
+                <label for="land-location">موقع الأرض:</label>
+                <input type="text" class="form-control" id="land-location" required>
+            </div>
+            <div class="form-group">
+                <label for="land-type">تصنيف الأرض:</label>
+                <select class="form-control" id="land-type" required>
+                    <option value="">اختر التصنيف</option>
+                    <option value="residential">سكني</option>
+                    <option value="commercial">تجاري</option>
+                    <option value="agricultural">زراعي</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <label for="seller-name">اسم البائع:</label>
                 <input type="text" class="form-control" id="seller-name" required>
             </div>
@@ -174,17 +200,14 @@
         </form>
     </div>
 
-    <!-- فقرة معلومات عن الشركة -->
-    <div class="info-section">
-        <h2>عن موقع Invest in Birzeit</h2>
-        <p>موقع Invest in Birzeit هو منصة إلكترونية متخصصة في تقديم خدمات بيع وشراء الأراضي في مدينة بيرزيت. نقدم لك الفرص الأفضل في مجال الأراضي مع مجموعة متنوعة من الخيارات التي تناسب جميع احتياجاتك الاستثمارية. انطلق معنا في عالم الأراضي الفاخر والمبني على تقنيات حديثة.</p>
-    </div>
-
     <!-- واجهة تواصل معنا -->
-    <div id="contact-us-page" style="display: none; text-align: center; padding: 20px;">
-        <h2>تواصل معنا</h2>
-        <p>يمكنك التواصل معنا عبر البريد الإلكتروني التالي:</p>
-        <p><a href="mailto:batoolhammad67@gmail.com">batoolhammad67@gmail.com</a></p>
+    <div id="contact-us-page" style="display: none;">
+        <div class="contact-box">
+            <h3>القائمون على الموقع</h3>
+            <p>Batool Hammad - <a href="mailto:batoolhammad67@gmail.com">batoolhammad67@gmail.com</a> - 0597136553</p>
+            <p>Sjod Razem - <a href="mailto:razemsjod9@gmail.com">razemsjod9@gmail.com</a> - 0538239999</p>
+            <p>Raghad Akare - <a href="mailto:raghadakare1@gmail.com">raghadakare1@gmail.com</a> - 05987288488</p>
+        </div>
     </div>
 
     <!-- تحميل مكتبات JavaScript -->
@@ -206,6 +229,7 @@
         $(document).ready(function() {
             $('.btn').on('click', function() {
                 $('.welcome-container').hide();
+                $('#map-page, #sell-land-page, #contact-us-page').hide();
             });
 
             $('#buy-land-button').on('click', function() {
