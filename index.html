@@ -9,30 +9,20 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
     <!-- إضافة Bootstrap CSS لتحسين تصميم واجهة المستخدم -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- إضافة خطوط فاخرة -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     
     <style>
         body {
             direction: rtl;
             text-align: right;
-            background-color: #f0f0f0; /* لون خلفية فاتح */
-            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4; /* خلفية هادئة */
+            font-family: 'Roboto', sans-serif;
         }
 
         /* تخصيص خريطة Leaflet */
         #map {
             height: 100vh;
-        }
-
-        /* تصميم الفلاتر بشكل جذاب */
-        .filter-container {
-            position: absolute;
-            top: 10%;
-            left: 2%;
-            z-index: 999;
-            background-color: rgba(240, 248, 255, 0.9); /* لون مريح للعين */
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
         /* تصميم نافذة الترحيب بشكل فاخر */
@@ -53,59 +43,92 @@
         }
 
         .welcome-container h1 {
-            font-size: 3rem;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: #28a745; /* لون أخضر فخم */
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #FFD700; /* لون ذهبي فاخر */
+            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
         }
 
         .welcome-container p {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             margin-bottom: 40px;
             color: #f0f0f0;
             font-weight: 300;
+            line-height: 1.8;
         }
 
         .btn-container {
             display: flex;
-            gap: 20px;
+            gap: 25px;
         }
 
         .btn-container .btn {
-            font-size: 1.2rem;
-            padding: 15px 30px;
+            font-size: 1.3rem;
+            padding: 18px 35px;
             border-radius: 10px;
-            background-color: #28a745;
+            background-color: #28a745; /* أخضر فاخر */
             border: none;
             color: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .btn-container .btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            transform: scale(1.1);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
         }
 
+        /* تخصيص تأثيرات الأزرار عند التمرير */
+        .btn-container .btn:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(0, 255, 0, 0.5);
+        }
+
+        /* تصميم معلومات الشركة */
         .info-section {
-            padding: 20px;
+            padding: 30px;
             background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin: 30px auto;
+            max-width: 1200px;
         }
 
         .info-section h2 {
-            font-size: 2rem;
+            font-size: 2.5rem;
             color: #333;
-            margin-bottom: 15px;
+            margin-bottom: 25px;
+            font-weight: 500;
         }
 
         .info-section p {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: #555;
             line-height: 1.8;
+            text-align: justify;
+        }
+
+        /* إضافة تأثيرات أخرى لتحسين تجربة المستخدم */
+        .header-logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #FFD700;
+            margin-bottom: 20px;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+        
+        /* تصميم خلفية الأزرار */
+        .btn-container .btn {
+            border: 2px solid #FFD700;
+            background-color: transparent;
+            color: #FFD700;
+        }
+
+        .btn-container .btn:hover {
+            background-color: #FFD700;
+            color: #fff;
         }
     </style>
 </head>
@@ -114,7 +137,7 @@
     <!-- نافذة الترحيب بالمستخدم -->
     <div class="welcome-container" id="welcome-container">
         <h1>مرحبًا بك في Invest in Birzeit!</h1>
-        <p>انطلق في رحلة استثمارية رائعة لاكتشاف الأراضي المميزة في بيرزيت. هنا يمكنك شراء وبيع الأراضي بشكل سهل وآمن.</p>
+        <p>اكتشف الأراضي الرائعة في بيرزيت، استثمر في الفرص المتميزة لشراء وبيع الأراضي مع منصة متطورة وسهلة الاستخدام.</p>
         <div class="btn-container">
             <button class="btn" id="buy-land-button">شراء أرض</button>
             <button class="btn" id="sell-land-button">بيع أرض</button>
@@ -154,7 +177,7 @@
     <!-- فقرة معلومات عن الشركة -->
     <div class="info-section">
         <h2>عن موقع Invest in Birzeit</h2>
-        <p>موقع Invest in Birzeit هو منصة إلكترونية متخصصة في تقديم خدمات بيع وشراء الأراضي في مدينة بيرزيت. تم تأسيس الموقع لتلبية احتياجات العملاء الباحثين عن فرص استثمارية مميزة وأراضٍ ذات موقع استراتيجي، محاطة بالجمال الطبيعي الخلاب. يوفر الموقع مجموعة واسعة من الأراضي ذات الإمكانيات المتنوعة، لتناسب كافة احتياجات المستثمرين.</p>
+        <p>موقع Invest in Birzeit هو منصة إلكترونية متخصصة في تقديم خدمات بيع وشراء الأراضي في مدينة بيرزيت. نقدم لك الفرص الأفضل في مجال الأراضي مع مجموعة متنوعة من الخيارات التي تناسب جميع احتياجاتك الاستثمارية. انطلق معنا في عالم الأراضي الفاخر والمبني على تقنيات حديثة.</p>
     </div>
 
     <!-- واجهة تواصل معنا -->
